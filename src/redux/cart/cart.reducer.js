@@ -1,20 +1,13 @@
-import {
-  CartActionTypes
-} from "./cart-types";
+import { CartActionTypes } from "./cart-types";
 
-import {
-  addItemToCart
-} from './cart.utils';
+import { addItemToCart, removeItemFromCart } from "./cart.utils";
 
 const INITIAL_STATE = {
   hidden: true,
   cartItems: []
 };
 
-const cartReducer = (state = INITIAL_STATE, {
-  type,
-  payload
-}) => {
+const cartReducer = (state = INITIAL_STATE, { type, payload }) => {
   switch (type) {
     case CartActionTypes.TOGGLE_CART_HIDDEN:
       return {
@@ -25,9 +18,21 @@ const cartReducer = (state = INITIAL_STATE, {
       return {
         ...state,
         cartItems: addItemToCart(state.cartItems, payload)
-      }
-      default:
-        return state;
+      };
+    case CartActionTypes.REMOVE_ITEM:
+      return {
+        ...state,
+        cartItems: removeItemFromCart(state.cartItems, payload)
+      };
+    case CartActionTypes.CLEAR_ITEM_FROM_CART:
+      return {
+        ...state,
+        cartItems: state.cartItems.filter(
+          cartItem => cartItem.id !== payload.id
+        )
+      };
+    default:
+      return state;
   }
 };
 
