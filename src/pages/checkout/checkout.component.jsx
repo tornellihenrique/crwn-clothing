@@ -1,44 +1,49 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
+import { createStructuredSelector } from 'reselect';
 
-import "./checkout.styles.scss";
-import { createStructuredSelector } from "reselect";
+import {
+  CheckoutPageContainer,
+  CheckoutHeader,
+  HeaderBlock,
+  TotalContainer
+} from './checkout.styles';
 
 import {
   selectCartItems,
   selectCartTotal
-} from "../../redux/cart/cart.selectors";
-import CheckoutItem from "../../components/checkout-item/checkout-item.component";
-import StripeCheckoutButton from "../../components/stripe-button/stripe-button.component";
+} from '../../redux/cart/cart.selectors';
+import CheckoutItem from '../../components/checkout-item/checkout-item.component';
+import StripeCheckoutButton from '../../components/stripe-button/stripe-button.component';
 
 const CheckoutPage = ({ cartItems, total }) => (
-  <div className="checkout-page">
-    <div className="checkout-header">
-      <div className="header-block">
+  <CheckoutPageContainer>
+    <CheckoutHeader>
+      <HeaderBlock>
         <span>Product</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlock>
+      <HeaderBlock>
         <span>Description</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlock>
+      <HeaderBlock>
         <span>Quantity</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlock>
+      <HeaderBlock>
         <span>Price</span>
-      </div>
-      <div className="header-block">
+      </HeaderBlock>
+      <HeaderBlock>
         <span>Remove</span>
-      </div>
-    </div>
+      </HeaderBlock>
+    </CheckoutHeader>
     {cartItems.map(cartItem => (
       <CheckoutItem key={cartItem.id} cartItem={cartItem} />
     ))}
 
-    <div className="total">
+    <TotalContainer>
       <span>TOTAL: ${total}</span>
-    </div>
+    </TotalContainer>
     <StripeCheckoutButton price={total} />
-  </div>
+  </CheckoutPageContainer>
 );
 
 const mapStateToProps = createStructuredSelector({
